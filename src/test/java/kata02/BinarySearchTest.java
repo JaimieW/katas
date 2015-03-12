@@ -1,41 +1,73 @@
 package kata02;
 
-import static kata02.BinarySearch.search;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static kata02.BinarySearch.*;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class BinarySearchTest {
 
 
-    @Test public void test_a(){ assertEquals(-1, search(3, new int[0])); }
-    @Test public void test_b(){ assertEquals(-1, search(3, new int[]{1})); }
-    @Test public void test_c(){ assertEquals(0, search(1, new int[]{1})); }
+    private static int[] empty = new int[0];
+    private static int[] oneElement = new int[]{1};
+    private static int[] twoElement = new int[]{1, 3};
+    private static int[] threeElement = new int[]{1, 3, 5};
+    private static int[] fourElement = new int[]{1, 3, 5, 7};
     
-    @Test public void test_aa(){ assertEquals(0, search(1, new int[]{1,3})); }
-    @Test public void test_ab(){ assertEquals(1, search(3, new int[]{1,3})); }
-    @Test public void test_ac(){ assertEquals(-1, search(0, new int[]{1,3})); }
-    @Test public void test_ad(){ assertEquals(-1, search(2, new int[]{1,3})); }
-    @Test public void test_ae(){ assertEquals(-1, search(5, new int[]{1,3})); }
+    private int target;
+    private int[] sortedInts;
+    private int expected;
+    
+    public BinarySearchTest(int target, int[]sortedInts, int expected){
+	this.target = target;
+	this.expected = expected;
+	this.sortedInts = sortedInts;
+    }
+    
+    @Parameters
+    public static Collection<Object[]> data(){
+	return Arrays.asList(new Object[][]{
+		{3, empty, -1},
+		{3, oneElement, -1},
+		{1, oneElement,  0},
+		
+		{1, twoElement,  0},
+		{3, twoElement,  1},
+		{0, twoElement, -1},
+		{2, twoElement, -1},
+		{5, twoElement, -1},
+		
+		{1, threeElement,   0},
+		{3, threeElement,   1},
+		{5, threeElement,   2},
+		{0, threeElement,  -1},
+		{2, threeElement,  -1},
+		{4, threeElement,  -1},
+		{6, threeElement,  -1},
 
+		{1, fourElement,   0},
+		{3, fourElement,   1},
+		{5, fourElement,   2},
+		{7, fourElement,   3},
+		{0, fourElement,  -1},
+		{2, fourElement,  -1},
+		{4, fourElement,  -1},
+		{6, fourElement,  -1},
+		{8, fourElement,  -1},
 
-    @Test public void test_d(){ assertEquals(0, search(1, new int[]{1,3,5})); }
-    @Test public void test_e(){ assertEquals(1, search(3, new int[]{1,3,5})); }
-    @Test public void test_f(){ assertEquals(2, search(5, new int[]{1,3,5})); }
-    @Test public void test_g(){ assertEquals(-1, search(0, new int[]{1,3,5})); }
-    @Test public void test_h(){ assertEquals(-1, search(2, new int[]{1,3,5})); }
-    @Test public void test_i(){ assertEquals(-1, search(4, new int[]{1,3,5})); }
-    @Test public void test_j(){ assertEquals(-1, search(6, new int[]{1,3,5})); }
-
-
-    @Test public void test_k(){assertEquals(0, search(1, new int[]{1,3,5,7})); }
-    @Test public void test_l(){assertEquals(1, search(3, new int[]{1,3,5,7})); }
-    @Test public void test_m(){assertEquals(2, search(5, new int[]{1,3,5,7})); }
-    @Test public void test_n(){assertEquals(3, search(7, new int[]{1,3,5,7})); }
-    @Test public void test_o(){assertEquals(-1, search(0, new int[]{1,3,5,7})); }
-    @Test public void test_p(){assertEquals(-1, search(2, new int[]{1,3,5,7})); }
-    @Test public void test_q(){assertEquals(-1, search(4, new int[]{1,3,5,7})); }
-    @Test public void test_r(){assertEquals(-1, search(6, new int[]{1,3,5,7})); }
-    @Test public void test_s(){assertEquals(-1, search(8, new int[]{1,3,5,7})); }
+	});
+    }
+    
+    @Test
+    public void iterativeBinarySearch(){
+	assertEquals(expected, search(target, sortedInts));
+    }
 
 }

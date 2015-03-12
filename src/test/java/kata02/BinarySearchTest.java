@@ -67,7 +67,12 @@ public class BinarySearchTest {
     
     @Test
     public void iterativeBinarySearch(){
-	assertEquals(expected, search(target, sortedInts));
+		assertEquals(expected, searchIterative(target, sortedInts));
+    }
+    
+    @Test
+    public void recursiveBinarySearch(){
+		assertEquals(expected, searchRecursive(target, sortedInts));
     }
 
 }
